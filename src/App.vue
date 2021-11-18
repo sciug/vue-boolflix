@@ -2,26 +2,47 @@
   <div id="app">
     <input type="text" v-model="querySearch" placeholder="search a movie or a series">
     <button @click="searchElement">search</button>
-    <div v-for="element in elements" :key="element.id">
-      <div class="element">
-        <img :src='"https://image.tmdb.org/t/p/"+"w342"+ element.poster_path'  alt="" v-if="element.poster_path !== null">
-        <img :src='"https://image.tmdb.org/t/p/"+"w342"+ element.backdrop_path'  alt="" v-else-if="element.poster_path === null && element.backdrop_path !==null">
+    <div v-for="movie in movies" :key="movie.id">
+      <div class="movie">
+        <img :src='"https://image.tmdb.org/t/p/"+"w342"+ movie.poster_path'  alt="" v-if="movie.poster_path !== null">
+        <img :src='"https://image.tmdb.org/t/p/"+"w342"+ movie.backdrop_path'  alt="" v-else-if="movie.poster_path === null && movie.backdrop_path !==null">
         <img src="http://www.cfpcemon.it/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png" width="342px" alt="" v-else>
-      <p>title: {{element.title}}{{element.name}}</p>
-      <p>original title: {{element.original_title}}{{element.original_name}}</p>
+      <p>title: {{movie.title}}</p>
+      <p>original title: {{movie.original_title}}</p>
       <div class="language">
         <p>language</p> 
-      <country-flag :country='element.original_language' size='normal' v-if='element.original_language !== "en"'/>
-      <country-flag country='gb' size='normal' v-else-if='element.original_language === "en"'/>
+      <country-flag :country='movie.original_language' size='normal' v-if='movie.original_language !== "en"'/>
+      <country-flag country='gb' size='normal' v-else-if='movie.original_language === "en"'/>
 
 
       </div>
-      <p>vote: {{element.vote_average}}</p>
+      <p>vote: {{movie.vote_average}}</p>
+      <p><i class="fas fa-adjust"></i></p>
 
       </div>
   
 
 
+
+    </div>
+    <div v-for="serie in series" :key="serie.id">
+          <div class="serie">
+        <img :src='"https://image.tmdb.org/t/p/"+"w342"+ serie.poster_path'  alt="" v-if="serie.poster_path !== null">
+        <img :src='"https://image.tmdb.org/t/p/"+"w342"+ serie.backdrop_path'  alt="" v-else-if="serie.poster_path === null && serie.backdrop_path !==null">
+        <img src="http://www.cfpcemon.it/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png" width="342px" alt="" v-else>
+      <p>title: {{serie.name}}</p>
+      <p>original title: {{serie.original_name}}</p>
+      <div class="language">
+        <p>language</p> 
+      <country-flag :country='serie.original_language' size='normal' v-if='serie.original_language !== "en"'/>
+      <country-flag country='gb' size='normal' v-else-if='serie.original_language === "en"'/>
+
+
+      </div>
+      <p>vote: {{movie.vote_average}}</p>
+      <p><i class="fas fa-adjust"></i></p>
+
+      </div>
 
     </div>
   </div>
@@ -34,6 +55,8 @@ export default {
   data(){
     return {
       elements:[],
+      movies:[],
+      series:[],
       querySearch:"",
       error: "",
       
@@ -42,34 +65,24 @@ export default {
   },
   methods:{
     callMovieApi(){
-      axios
-      .get("https://api.themoviedb.org/3/search/movie?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&query="+this.querySearch)
-      .then((response)=> {
-        console.log(response.data.results)
-        this.elements = response.data.results
-      })
-      .catch((e) => {
-          console.log(e, "oops error");
-          this.error = e;
-        });
+    return axios.get("https://api.themoviedb.org/3/search/movie?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&query="+this.querySearch)
     },
     callSeriesApi(){
-      axios
-      .get("https://api.themoviedb.org/3/search/tv?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&page=1&query="+this.querySearch)
-      .then((response)=> {
-        console.log(response.data.results)
-        this.elements = response.data.results
+     return axios.get("https://api.themoviedb.org/3/search/tv?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&page=1&query="+this.querySearch)
+    },
+
+    searchElement(){
+      Promise.all([this.callMovieApi(), this.callSeriesApi])
+      .then(function (results){
+        this.movies = results[0];
+        this.series = results[1]
       })
       .catch((e) => {
+        console.log(this.movies)
+         this.error = e;
           console.log(e, "oops error");
-          this.error = e;
+         
         });
-    },
-    searchElement(){
-      this.callSeriesApi()
-      this.callMovieApi()
-      console.log(this.baseUrlImg)
-      
     }
 
     
@@ -79,8 +92,12 @@ export default {
 </script>
 
 <style lang="scss">
-.element{
+.movie{
   border: 1px solid red;
+  margin:1rem 0rem;
+}
+.serie{
+    border: 1px solid blue;
   margin:1rem 0rem;
 }
 </style>
