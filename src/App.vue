@@ -4,6 +4,9 @@
     <button @click="searchElement">search</button>
     <div v-for="element in elements" :key="element.id">
       <div class="element">
+        <img :src='"https://image.tmdb.org/t/p/"+"w342"+ element.poster_path'  alt="" v-if="element.poster_path !== null">
+        <img :src='"https://image.tmdb.org/t/p/"+"w342"+ element.backdrop_path'  alt="" v-else-if="element.poster_path === null && element.backdrop_path !==null">
+        <img src="http://www.cfpcemon.it/assets/camaleon_cms/image-not-found-4a963b95bf081c3ea02923dceaeb3f8085e1a654fc54840aac61a57a60903fef.png" width="342px" alt="" v-else>
       <p>title: {{element.title}}{{element.name}}</p>
       <p>original title: {{element.original_title}}{{element.original_name}}</p>
       <div class="language">
@@ -65,6 +68,7 @@ export default {
     searchElement(){
       this.callSeriesApi()
       this.callMovieApi()
+      console.log(this.baseUrlImg)
       
     }
 
