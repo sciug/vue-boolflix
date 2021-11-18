@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <SiteHeader/>
     <input type="text" v-model="querySearch" placeholder="search a movie or a series">
     <button @click="searchElement"><i class="fas fa-search"></i></button>
     <MoviesComponent :movies="this.movies"/>
@@ -58,14 +59,16 @@
 <script>
 import axios from "axios";
 import MoviesComponent from './components/MoviesComponent.vue';
-import SeriesComponent from './components/SeriesComponent.vue'
-
+import SeriesComponent from './components/SeriesComponent.vue';
+import SiteHeader from './components/SiteHeader.vue';
 
 export default {
   name: "App",
   components:{
     MoviesComponent,
-    SeriesComponent
+    SeriesComponent,
+    SiteHeader
+    
   },
   data(){
     return {
@@ -112,6 +115,14 @@ export default {
 </script>
 
 <style lang="scss">
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+   font-family: 'Rubik', sans-serif;
+}
 .movie{
   border: 1px solid red;
   margin:1rem 0rem;

@@ -18,7 +18,7 @@
       <div v-for="i in transformNumber(movie.vote_average)" :key="i">
         <i class="fas fa-star"></i>
       </div>
-      <p><i class="fas fa-adjust"></i></p>
+     
 
       </div>
       </div>
