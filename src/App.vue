@@ -6,7 +6,7 @@
       <div class="movie">
       <p>title: {{movie.title}}</p>
       <p>original title: {{movie.original_title}}</p>
-      <p>original language: {{movie.original_language}}</p>
+     <CountryFlag :country='movie.original_language' size='small'/>
       <p>vote: {{movie.vote_average}}</p>
 
       </div>
@@ -26,7 +26,8 @@ export default {
     return {
       movies:[],
       querySearch:"",
-      error: ""
+      error: "",
+      
     }
   },
   methods:{
