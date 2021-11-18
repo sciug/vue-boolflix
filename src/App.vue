@@ -6,7 +6,13 @@
       <div class="movie">
       <p>title: {{movie.title}}</p>
       <p>original title: {{movie.original_title}}</p>
-     <CountryFlag :country='movie.original_language' size='small'/>
+      <div class="language">
+        <p>language</p> 
+      <country-flag :country='movie.original_language' size='normal' v-if='movie.original_language !== "en"'/>
+      <country-flag country='gb' size='normal' v-else-if='movie.original_language === "en"'/>
+
+
+      </div>
       <p>vote: {{movie.vote_average}}</p>
 
       </div>
@@ -27,6 +33,7 @@ export default {
       movies:[],
       querySearch:"",
       error: "",
+      
       
     }
   },
