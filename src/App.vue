@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <input type="text" v-model="querySearch" placeholder="search a movie or a series">
-    <button @click="searchElement">search</button>
+    <button @click="searchElement"><i class="fas fa-search"></i></button>
     <div v-for="movie in movies" :key="movie.id">
       <div class="movie">
         <img :src='"https://image.tmdb.org/t/p/"+"w342"+ movie.poster_path'  alt="" v-if="movie.poster_path !== null">
@@ -39,7 +39,7 @@
 
 
       </div>
-      <p>vote: {{movie.vote_average}}</p>
+      <p>vote: {{serie.vote_average}}</p>
       <p><i class="fas fa-adjust"></i></p>
 
       </div>
@@ -54,7 +54,6 @@ import axios from "axios";
 export default {
   data(){
     return {
-      elements:[],
       movies:[],
       series:[],
       querySearch:"",
