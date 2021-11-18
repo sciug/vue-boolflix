@@ -2,6 +2,8 @@
   <div id="app">
     <input type="text" v-model="querySearch" placeholder="search a movie or a series">
     <button @click="searchElement"><i class="fas fa-search"></i></button>
+    <Movies/>
+    <Series/>
     <div v-for="movie in movies" :key="movie.id">
       <div class="movie">
         <img :src='"https://image.tmdb.org/t/p/"+"w342"+ movie.poster_path'  alt="" v-if="movie.poster_path !== null">
@@ -55,8 +57,16 @@
 
 <script>
 import axios from "axios";
+import Movies from './components/Movies.vue';
+import Series from './components/Series.vue'
+
 
 export default {
+  name: "App",
+  components:{
+    Movies,
+    Series
+  },
   data(){
     return {
       movies:[],
