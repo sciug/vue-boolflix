@@ -2,9 +2,9 @@
   <div id="app">
     <input type="text" v-model="querySearch" placeholder="search a movie or a series">
     <button @click="searchElement"><i class="fas fa-search"></i></button>
-    <Movies/>
-    <Series/>
-    <div v-for="movie in movies" :key="movie.id">
+    <MoviesComponent :movies="this.movies"/>
+    <SeriesComponent :series="this.series"/>
+    <!-- <div v-for="movie in movies" :key="movie.id">
       <div class="movie">
         <img :src='"https://image.tmdb.org/t/p/"+"w342"+ movie.poster_path'  alt="" v-if="movie.poster_path !== null">
         <img :src='"https://image.tmdb.org/t/p/"+"w342"+ movie.backdrop_path'  alt="" v-else-if="movie.poster_path === null && movie.backdrop_path !==null">
@@ -29,8 +29,8 @@
 
 
 
-    </div>
-    <div v-for="serie in series" :key="serie.id">
+    </div> -->
+    <!-- <div v-for="serie in series" :key="serie.id">
           <div class="serie">
         <img :src='"https://image.tmdb.org/t/p/"+"w342"+ serie.poster_path'  alt="" v-if="serie.poster_path !== null">
         <img :src='"https://image.tmdb.org/t/p/"+"w342"+ serie.backdrop_path'  alt="" v-else-if="serie.poster_path === null && serie.backdrop_path !==null">
@@ -51,21 +51,21 @@
 
       </div>
 
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import Movies from './components/Movies.vue';
-import Series from './components/Series.vue'
+import MoviesComponent from './components/MoviesComponent.vue';
+import SeriesComponent from './components/SeriesComponent.vue'
 
 
 export default {
   name: "App",
   components:{
-    Movies,
-    Series
+    MoviesComponent,
+    SeriesComponent
   },
   data(){
     return {
