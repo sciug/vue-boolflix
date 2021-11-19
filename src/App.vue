@@ -1,10 +1,11 @@
 <template>
   <div id="app">
-    <SiteHeader/>
-    <input type="text" v-model="querySearch" placeholder="search a movie or a series">
-    <button @click="searchElement"><i class="fas fa-search"></i></button>
+    <SiteHeader @search="searchElement"/>
+   <!-- <input type="text" v-model="querySearch" placeholder="search a movie or a series">
+    <button @click="searchElement"><i class="fas fa-search"></i></button> -->
     <MoviesComponent :movies="this.movies"/>
     <SeriesComponent :series="this.series"/>
+     
     <!-- <div v-for="movie in movies" :key="movie.id">
       <div class="movie">
         <img :src='"https://image.tmdb.org/t/p/"+"w342"+ movie.poster_path'  alt="" v-if="movie.poster_path !== null">
@@ -74,7 +75,6 @@ export default {
     return {
       movies:[],
       series:[],
-      querySearch:"",
       error: "",
       
       
@@ -82,15 +82,15 @@ export default {
     }
   },
   methods:{
-    callMovieApi(){
-    return axios.get("https://api.themoviedb.org/3/search/movie?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&query="+this.querySearch)
+    callMovieApi(querySearch){
+    return axios.get("https://api.themoviedb.org/3/search/movie?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&query="+querySearch)
     },
-    callSeriesApi(){
-     return axios.get("https://api.themoviedb.org/3/search/tv?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&page=1&query="+this.querySearch)
+    callSeriesApi(querySearch){
+     return axios.get("https://api.themoviedb.org/3/search/tv?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&page=1&query="+querySearch)
     },
 
-    searchElement(){
-       Promise.all([this.callMovieApi(), this.callSeriesApi()])
+    searchElement(querySearch){
+       Promise.all([this.callMovieApi(querySearch), this.callSeriesApi(querySearch)])
       .then(axios.spread((...results)=>{
         this.movies = results[0].data.results
         this.series = results[1].data.results
