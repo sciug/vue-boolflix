@@ -1,6 +1,6 @@
 <template>
-  <div>
-      <div v-for="serie in series" :key="serie.id">
+  <div class="row">
+      <div v-for="serie in series" :key="serie.id" class="col-4">
           <div class="serie">
         <img :src='"https://image.tmdb.org/t/p/"+"w342"+ serie.poster_path'  alt="" v-if="serie.poster_path !== null">
         <img :src='"https://image.tmdb.org/t/p/"+"w342"+ serie.backdrop_path'  alt="" v-else-if="serie.poster_path === null && serie.backdrop_path !==null">

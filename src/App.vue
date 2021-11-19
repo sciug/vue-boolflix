@@ -3,8 +3,10 @@
     <SiteHeader @search="searchElement"/>
    <!-- <input type="text" v-model="querySearch" placeholder="search a movie or a series">
     <button @click="searchElement"><i class="fas fa-search"></i></button> -->
+    <div class="container">
     <MoviesComponent :movies="this.movies"/>
     <SeriesComponent :series="this.series"/>
+    </div>
      
     <!-- <div v-for="movie in movies" :key="movie.id">
       <div class="movie">
