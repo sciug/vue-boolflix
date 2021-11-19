@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="title_sec"><h2>series</h2></div>
+    <div class="title_sec"><h2>Series</h2></div>
     <div v-for="serie in series" :key="serie.id" class="col-3">
       <div class="serie">
         <div class="serie_img_wrapper">

@@ -40,9 +40,11 @@
               v-else-if="movie.original_language === 'en'"
             />
           </div>
-          
+         
+            <p>{{movie.id}}</p>
+         
           <div class="d-flex align-items-center">
-            <p>vote:</p>
+            <p class="vote">vote:</p>
             <i class="fas fa-star" v-for="i in transformNumber(movie.vote_average)" :key="i"></i>
             <i class="far fa-star" v-for="i in (5 - transformNumber(movie.vote_average))" :key="i"></i>
 
@@ -51,11 +53,17 @@
         </div>
       </div>
     </div>
+   
   </div>
 </template>
 
 <script>
 export default {
+  data(){
+   return {
+     actors:[]
+   }
+  },
   props: {
     movies: Array,
   },
@@ -63,7 +71,9 @@ export default {
     transformNumber(number) {
       return Math.floor(number / 2);
     },
+   
   },
+ 
 };
 </script>
 
@@ -122,6 +132,9 @@ export default {
 .title_sec{
   color: white;
   letter-spacing: 1px;
+}
+.vote{
+  margin-right: .5rem;
 }
 
 </style>

@@ -78,7 +78,7 @@ export default {
       movies:[],
       series:[],
       error: "",
-      
+     
       
       
     }
@@ -96,6 +96,7 @@ export default {
       .then(axios.spread((...results)=>{
         this.movies = results[0].data.results
         this.series = results[1].data.results
+   ;
       }))
       .catch((e) => {
         console.log(this.movies)
