@@ -1,5 +1,6 @@
 <template>
   <div class="row">
+    <div class="title_sec"><h2>Movies</h2></div>
     <div v-for="movie in movies" :key="movie.id" class="col-3">
       <div class="movie">
         <div class="movie_img_wrapper">
@@ -23,10 +24,11 @@
           />
         </div>
         <div class="movie_info">
-          <p>title: {{ movie.title }}</p>
-          <p>original title: {{ movie.original_title }}</p>
+          <div class="movie_info_content">
+          <p>title: <span class="info_text">{{ movie.title }}</span></p>
+          <p>original title: <span class="info_text">{{ movie.original_title }}</span></p>
           <div class="language d-flex align-items-center">
-            <p>language</p>
+            <p>language:</p>
             <country-flag
               :country="movie.original_language"
               size="normal"
@@ -40,11 +42,12 @@
           </div>
           
           <div class="d-flex align-items-center">
-            vote:
+            <p>vote:</p>
             <i class="fas fa-star" v-for="i in transformNumber(movie.vote_average)" :key="i"></i>
             <i class="far fa-star" v-for="i in (5 - transformNumber(movie.vote_average))" :key="i"></i>
 
           </div>
+        </div>
         </div>
       </div>
     </div>
@@ -71,21 +74,54 @@ export default {
     width: 100%;
     height: 400px;
     object-fit: cover;
+    border-radius: 5px;
+      object-position: bottom;
   }
 }
 .movie{
   position: relative;
+  transition: all 250ms;
+  cursor: pointer;
+  box-shadow: 0px 0px 20px rgba(167, 159, 159, 0.507);
 }
+
 .movie_info{
+  transition: all 250ms;
+  display: none;
+  border-radius: 5px;
+  height: 100%;
   width: 100%;
-  padding: 1rem;
   position: absolute;
-  bottom:0;
   left: 0;
-  background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.9391106784510679) 37%);
+  bottom:0;
+  background:linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0, 0, 0, 0.822) 70%);
   color: white;
   p{
     margin: 0;
+    font-size: .85rem;
+    font-weight: 200;
+    
+    .info_text{
+      font-weight: 700;
+      letter-spacing: .5px;
+      margin-left: .2rem;
+      max-width: 100px;
+    }
   }
 }
+.movie:hover .movie_info{
+  display: block;
+  
+}
+.movie_info_content{
+  position: absolute;
+  width: 100%;
+  bottom: 2rem;
+  left: 1rem;
+}
+.title_sec{
+  color: white;
+  letter-spacing: 1px;
+}
+
 </style>

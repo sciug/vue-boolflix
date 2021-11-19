@@ -47,9 +47,12 @@ export default {
 
 <style lang="scss">
 .header{
-  background-color:#141414 ;
+ background: linear-gradient(180deg, rgba(0,0,0,1) 34%, rgba(0,0,0,0) 94%);
   width: 100%;
-  padding:.5rem 0
+  padding:.5rem 0;
+  position:fixed;
+  z-index: 10;
+  top: 0;
 }
 .header_wrapper{
   width: 90%;

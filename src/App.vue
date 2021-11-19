@@ -4,8 +4,8 @@
    <!-- <input type="text" v-model="querySearch" placeholder="search a movie or a series">
     <button @click="searchElement"><i class="fas fa-search"></i></button> -->
     <div class="container">
-    <MoviesComponent :movies="this.movies"/>
-    <SeriesComponent :series="this.series"/>
+    <MoviesComponent :movies="this.movies" class="margin_top"/>
+    <SeriesComponent :series="this.series" class="margin_top"/>
     </div>
      
     <!-- <div v-for="movie in movies" :key="movie.id">
@@ -118,7 +118,7 @@ export default {
 
 <style lang="scss">
 @import '../node_modules/bootstrap/scss/bootstrap.scss';
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&display=swap');
 *{
   margin: 0;
   padding: 0;
@@ -126,11 +126,12 @@ export default {
    font-family: 'Rubik', sans-serif;
 }
 .movie{
-  border: 1px solid red;
+  
   margin:1rem 0rem;
+  border-radius: 5px;
 }
 .serie{
-    border: 1px solid blue;
+    
   margin:1rem 0rem;
 }
 .not_found_img{
@@ -138,5 +139,12 @@ export default {
   width:342px;
   object-fit:cover;
 
+
+}
+body{
+  background-color: rgb(20, 20, 20);
+}
+.margin_top{
+  margin-top: 5rem;
 }
 </style>
