@@ -1,13 +1,19 @@
 <template>
   <div id="app">
-    <SiteHeader @search="searchElement"/>
-   <!-- <input type="text" v-model="querySearch" placeholder="search a movie or a series">
+    <SiteHeader @search="searchElement" />
+    <!-- <input type="text" v-model="querySearch" placeholder="search a movie or a series">
     <button @click="searchElement"><i class="fas fa-search"></i></button> -->
     <div class="container">
-    <MoviesComponent :movies="this.movies" class="margin_top" @show-actors="showActors" :actors="this.actors"/>
-    <SeriesComponent :series="this.series" class="margin_top"/>
+      <MoviesComponent
+        :movies="this.movies"
+        class="margin_top"
+        @show-actors="showActors"
+        :actors="this.actors"
+       
+      />
+      <SeriesComponent :series="this.series" class="margin_top" />
     </div>
-     
+
     <!-- <div v-for="movie in movies" :key="movie.id">
       <div class="movie">
         <img :src='"https://image.tmdb.org/t/p/"+"w342"+ movie.poster_path'  alt="" v-if="movie.poster_path !== null">
@@ -61,105 +67,123 @@
 
 <script>
 import axios from "axios";
-import MoviesComponent from './components/MoviesComponent.vue';
-import SeriesComponent from './components/SeriesComponent.vue';
-import SiteHeader from './components/SiteHeader.vue';
+import MoviesComponent from "./components/MoviesComponent.vue";
+import SeriesComponent from "./components/SeriesComponent.vue";
+import SiteHeader from "./components/SiteHeader.vue";
 
 export default {
   name: "App",
-  components:{
+  components: {
     MoviesComponent,
     SeriesComponent,
-    SiteHeader
-    
+    SiteHeader,
   },
-  data(){
+  data() {
     return {
-      actors:[],
-      movies:[],
-      series:[],
+      id: "",      
+      movies: [],
+      series: [],
       error: "",
-     
-      
-      
-    }
+      actors:null
+    };
   },
-  methods:{
-    showActors(movieId){
-      this.movies.forEach((movie)=>{
-        movieId === movie.id
-        console.log("movie id" + movieId)
-      })
+  methods: {
+    showActors(id) {
+      
+      
+
+       
+          axios
+            .get(
+              "https://api.themoviedb.org/3/movie/" +
+                id +
+                "/credits?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US"
+            )
+            .then((resp) => {
+              
+              
+              /*   this.$set(this.actors,0, resp.data.cast) */
+             this.actors = resp.data.cast.slice(0,5);
+             
+            })
+            .catch((e) => {
+              console.log(e);
+              this.error = e;
+            });
+       
+     ;
+
+
+      /* this.movies.forEach((movie)=>{
+        this.id == movie.id
+        console.log("movie id" + this.id)
+
         
+      }) */
     },
 
-    callActors(movieId){
-      return axios.get("https://api.themoviedb.org/3/movie/"+movieId+"/credits?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US")
+    callMovieApi(querySearch) {
+      return axios.get(
+        "https://api.themoviedb.org/3/search/movie?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&query=" +
+          querySearch
+      );
+    },
+    callSeriesApi(querySearch) {
+      return axios.get(
+        "https://api.themoviedb.org/3/search/tv?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&page=1&query=" +
+          querySearch
+      );
     },
 
-    callMovieApi(querySearch){
-    return axios.get("https://api.themoviedb.org/3/search/movie?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&query="+querySearch)
-    },
-    callSeriesApi(querySearch){
-     return axios.get("https://api.themoviedb.org/3/search/tv?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&page=1&query="+querySearch)
-    },
-
-    searchElement(querySearch){
-       Promise.all([this.callMovieApi(querySearch), this.callSeriesApi(querySearch), this.callActors(movieId)])
-      .then(axios.spread((...results)=>{
-        this.movies = results[0].data.results
-        this.series = results[1].data.results
-        this.actors = results[2].data.cast
-   ;
-      }))
-      .catch((e) => {
-        console.log(this.movies)
-         this.error = e;
+    searchElement(querySearch) {
+      Promise.all([
+        this.callMovieApi(querySearch),
+        this.callSeriesApi(querySearch),
+      ])
+        .then(
+          axios.spread((...results) => {
+            this.movies = results[0].data.results;
+            this.series = results[1].data.results;
+          })
+        )
+        .catch((e) => {
+          console.log(this.movies);
+          this.error = e;
           console.log(e, "oops error");
-         
         });
     },
-    transformNumber(number){
-      return Math.floor(number / 2)
-    }
-
-
-    
+    transformNumber(number) {
+      return Math.floor(number / 2);
+    },
   },
-  
-
 };
 </script>
 
 <style lang="scss">
-@import '../node_modules/bootstrap/scss/bootstrap.scss';
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&display=swap');
-*{
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700;800&display=swap");
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-   font-family: 'Rubik', sans-serif;
+  font-family: "Rubik", sans-serif;
 }
-.movie{
-  
-  margin:1rem 0rem;
+.movie {
+  margin: 1rem 0rem;
   border-radius: 5px;
 }
-.serie{
-    
-  margin:1rem 0rem;
+.serie {
+  margin: 1rem 0rem;
 }
-.not_found_img{
-  height:513px;
-  width:342px;
-  object-fit:cover;
-
-
+.not_found_img {
+  height: 513px;
+  width: 342px;
+  object-fit: cover;
 }
-body{
+body {
   background-color: rgb(20, 20, 20);
 }
-.margin_top{
+.margin_top {
   margin-top: 5rem;
 }
 </style>

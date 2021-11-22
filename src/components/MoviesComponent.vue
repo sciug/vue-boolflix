@@ -25,7 +25,7 @@
         </div>
         <div class="movie_info">
           <div class="movie_info_content">
-          <p>title: <span class="info_text">{{ movieId }}</span></p>
+          <p>title: <span class="info_text">{{ movie.title }}</span></p>
           <p>original title: <span class="info_text">{{ movie.original_title }}</span></p>
           <div class="language d-flex align-items-center">
             <p>language:</p>
@@ -41,13 +41,20 @@
             />
           </div>
          
-            <button @click="$emit('show-actors', movieId)">actors: {{actors}}</button>
+            <button @click="$emit('show-actors', movie.id)">actors:</button>
+            
+            <div v-for="actor in actors" :key="actor.name">
+              {{actor.name}}
+            </div>
+            
          
           <div class="d-flex align-items-center">
             <p class="vote">vote:</p>
-            <i class="fas fa-star" v-for="i in transformNumber(movie.vote_average)" :key="i"></i>
-            <i class="far fa-star" v-for="i in (5 - transformNumber(movie.vote_average))" :key="i"></i>
-
+             <i class="fas fa-star" v-for="i in transformNumber(movie.vote_average)" :key="i"></i>
+            <i class="far fa-star" v-for="i in (5 - transformNumber(movie.vote_average))" :key="i+'a'"></i> 
+            <!-- <i  v-for="i in transformNumber(movie.vote_average)" :key="i">{{i}}</i>
+            <i  v-for="i in (5 - transformNumber(movie.vote_average))" :key="i">{{i + "numero"}}</i>
+ -->
           </div>
         </div>
         </div>
@@ -61,15 +68,9 @@
 
 
 export default {
-  data(){
-    return{
-      movieId:""
-    }
+ 
 
-  },
-
-  props: {
-    movies: Array,
+  props: {    movies: Array,
     actors: Array
       },
   methods: {
