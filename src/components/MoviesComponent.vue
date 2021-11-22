@@ -41,9 +41,9 @@
             />
           </div>
          
-            <button @click="$emit('show-actors', movie.id)">actors:</button>
+            <button class="showActors" @click="showActors(movies, movie.id)">actors:</button>
             
-            <div v-for="actor in actors" :key="actor.name">
+            <div v-for="actor in actors" :key="actor.name" class="actors">
               {{actor.name}}
             </div>
             
@@ -66,17 +66,62 @@
 
 <script>
 
+import axios from "axios";
 
-export default {
+export default {data(){
+  return{
+    actors:null
+  }
+},
  
 
   props: {    movies: Array,
-    actors: Array
+  
+   
       },
   methods: {
     transformNumber(number) {
       return Math.floor(number / 2);
     },
+     showActors(movies, id) {
+      
+      movies.forEach((movie) => {
+        if(movie.id==id){
+             axios
+            .get(
+              "https://api.themoviedb.org/3/movie/" +
+                id +
+                "/credits?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US"
+            )
+            .then((resp) => {
+              
+              
+              /*   this.$set(this.actors,0, resp.data.cast) */
+             this.actors = resp.data.cast.slice(0,5);
+            
+             
+            })
+            .catch((e) => {
+              console.log(e);
+              this.error = e;
+            });
+        }
+        
+      });
+
+       
+       
+     }
+    
+
+
+      /* this.movies.forEach((movie)=>{
+        this.id == movie.id
+        console.log("movie id" + this.id)
+
+        
+      }) */
+    
    
 
    
@@ -145,5 +190,22 @@ export default {
 .vote{
   margin-right: .5rem !important;
 }
-
+.showActors{
+  background-color: #e50914;
+  padding:.2rem .5rem;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 0.85rem;
+   margin: 0;
+    font-size: .85rem;
+    font-weight: 200;
+    transition: all 250ms;
+}
+.showActors:hover{
+  background-color: #b30911;
+}
+.actors{
+  margin: .3rem 0 .3rem .3rem;
+}
 </style>

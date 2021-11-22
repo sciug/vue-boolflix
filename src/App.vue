@@ -6,10 +6,7 @@
     <div class="container">
       <MoviesComponent
         :movies="this.movies"
-        class="margin_top"
-        @show-actors="showActors"
-        :actors="this.actors"
-       
+        class="margin_top"             
       />
       <SeriesComponent :series="this.series" class="margin_top" />
     </div>
@@ -84,43 +81,11 @@ export default {
       movies: [],
       series: [],
       error: "",
-      actors:null
+      
     };
   },
   methods: {
-    showActors(id) {
-      
-      
-
-       
-          axios
-            .get(
-              "https://api.themoviedb.org/3/movie/" +
-                id +
-                "/credits?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US"
-            )
-            .then((resp) => {
-              
-              
-              /*   this.$set(this.actors,0, resp.data.cast) */
-             this.actors = resp.data.cast.slice(0,5);
-             
-            })
-            .catch((e) => {
-              console.log(e);
-              this.error = e;
-            });
-       
-     ;
-
-
-      /* this.movies.forEach((movie)=>{
-        this.id == movie.id
-        console.log("movie id" + this.id)
-
-        
-      }) */
-    },
+   
 
     callMovieApi(querySearch) {
       return axios.get(
