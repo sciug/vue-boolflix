@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="title_sec"><h2>Movies</h2></div>
-    <div v-for="movie in movies" :key="movie.id" class="col-3">
+    <div v-for="(movie,key,index) in movies" :key="index" class="col-3">
       <div class="movie">
         <div class="movie_img_wrapper">
           <img
@@ -25,7 +25,7 @@
         </div>
         <div class="movie_info">
           <div class="movie_info_content">
-          <p>title: <span class="info_text">{{ movie.title }}</span></p>
+          <p>title: <span class="info_text">{{ movieId }}</span></p>
           <p>original title: <span class="info_text">{{ movie.original_title }}</span></p>
           <div class="language d-flex align-items-center">
             <p>language:</p>
@@ -41,7 +41,7 @@
             />
           </div>
          
-            <p>{{movie.id}}</p>
+            <button @click="$emit('show-actors', movieId)">actors: {{actors}}</button>
          
           <div class="d-flex align-items-center">
             <p class="vote">vote:</p>
@@ -58,21 +58,29 @@
 </template>
 
 <script>
+
+
 export default {
   data(){
-   return {
-     actors:[]
-   }
+    return{
+      movieId:""
+    }
+
   },
+
   props: {
     movies: Array,
-  },
+    actors: Array
+      },
   methods: {
     transformNumber(number) {
       return Math.floor(number / 2);
     },
    
+
+   
   },
+ 
  
 };
 </script>
@@ -134,7 +142,7 @@ export default {
   letter-spacing: 1px;
 }
 .vote{
-  margin-right: .5rem;
+  margin-right: .5rem !important;
 }
 
 </style>

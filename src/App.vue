@@ -4,7 +4,7 @@
    <!-- <input type="text" v-model="querySearch" placeholder="search a movie or a series">
     <button @click="searchElement"><i class="fas fa-search"></i></button> -->
     <div class="container">
-    <MoviesComponent :movies="this.movies" class="margin_top"/>
+    <MoviesComponent :movies="this.movies" class="margin_top" @show-actors="showActors" :actors="this.actors"/>
     <SeriesComponent :series="this.series" class="margin_top"/>
     </div>
      
@@ -75,6 +75,7 @@ export default {
   },
   data(){
     return {
+      actors:[],
       movies:[],
       series:[],
       error: "",
@@ -84,6 +85,18 @@ export default {
     }
   },
   methods:{
+    showActors(movieId){
+      this.movies.forEach((movie)=>{
+        movieId === movie.id
+        console.log("movie id" + movieId)
+      })
+        
+    },
+
+    callActors(movieId){
+      return axios.get("https://api.themoviedb.org/3/movie/"+movieId+"/credits?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US")
+    },
+
     callMovieApi(querySearch){
     return axios.get("https://api.themoviedb.org/3/search/movie?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US&query="+querySearch)
     },
@@ -92,10 +105,11 @@ export default {
     },
 
     searchElement(querySearch){
-       Promise.all([this.callMovieApi(querySearch), this.callSeriesApi(querySearch)])
+       Promise.all([this.callMovieApi(querySearch), this.callSeriesApi(querySearch), this.callActors(movieId)])
       .then(axios.spread((...results)=>{
         this.movies = results[0].data.results
         this.series = results[1].data.results
+        this.actors = results[2].data.cast
    ;
       }))
       .catch((e) => {
