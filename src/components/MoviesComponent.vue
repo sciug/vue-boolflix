@@ -43,15 +43,21 @@
          
             <button class="showActors" @click="showActors(movies, movie.id)">actors:</button>
             
-            <div v-for="actor in actors" :key="actor.name" class="actors">
+            <div v-for="actor in movie.actors" :key="actor.name" class="actors">
               {{actor.name}}
             </div>
             
          
           <div class="d-flex align-items-center">
             <p class="vote">vote:</p>
-             <i class="fas fa-star" v-for="i in transformNumber(movie.vote_average)" :key="i"></i>
-            <i class="far fa-star" v-for="i in (5 - transformNumber(movie.vote_average))" :key="i+'a'"></i> 
+            <div v-for="starmovie in transformNumber(movie.vote_average)" :key="starmovie">
+               <i class="fas fa-star" ></i>
+            </div>
+            <div v-for="moviestarempty in (5 - transformNumber(movie.vote_average))" :key="moviestarempty+'a'">
+               <i class="far fa-star" ></i>
+            </div>
+            
+            <!-- <i class="far fa-star" v-for="moviestarempty in (5 - transformNumber(movie.vote_average))" :key="moviestarempty+'a'"></i>  -->
             <!-- <i  v-for="i in transformNumber(movie.vote_average)" :key="i">{{i}}</i>
             <i  v-for="i in (5 - transformNumber(movie.vote_average))" :key="i">{{i + "numero"}}</i>
  -->
@@ -68,11 +74,7 @@
 
 import axios from "axios";
 
-export default {data(){
-  return{
-    actors:null
-  }
-},
+export default {
  
 
   props: {    movies: Array,
@@ -83,6 +85,7 @@ export default {data(){
     transformNumber(number) {
       return Math.floor(number / 2);
     },
+    
      showActors(movies, id) {
       
       movies.forEach((movie) => {
@@ -93,11 +96,11 @@ export default {data(){
                 id +
                 "/credits?api_key=31604f6ab3ca5fcc65adf409f092f7c1&language=en-US"
             )
-            .then((resp) => {
-              
-              
+            .then((resp) => { 
               /*   this.$set(this.actors,0, resp.data.cast) */
-             this.actors = resp.data.cast.slice(0,5);
+              let actors=[]
+             actors= resp.data.cast.slice(0,5);
+            movie.push(actors)
             
              
             })

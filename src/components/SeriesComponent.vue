@@ -43,8 +43,13 @@
           
           <div class="d-flex align-items-center">
             <p>vote:</p>
-             <i class="fas fa-star" v-for="i in transformNumber(serie.vote_average)" :key="i"></i>
-            <i class="far fa-star" v-for="i in (5 - transformNumber(serie.vote_average))" :key="i+'a'"></i> 
+            <div v-for="starserie in transformNumber(serie.vote_average)" :key="starserie">
+               <i class="fas fa-star" ></i>
+            </div>
+            <div v-for="seriestarempty in (5 - transformNumber(serie.vote_average))" :key="seriestarempty+'a'">
+               <i class="far fa-star" ></i>
+            </div>
+            <!-- <i class="far fa-star" v-for="starempty in (5 - transformNumber(serie.vote_average))" :key="starempty+'b'"></i>  -->
           </div>
         </div>
         </div>
